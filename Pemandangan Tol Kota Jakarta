@@ -1,0 +1,279 @@
+import processing.core.PApplet;
+
+public class GambarPemdas extends PApplet {
+    //variabel-variabel
+    Car[] cars; // array mobil yg lewat
+    float carX; // posisi mobil
+    float carSpeed = 3; // kecepatan mobil
+    float sunX; // posisi matahari
+    float sunSpeed = 1; // Kecepatan matahari
+
+    int xs = -120, ys = 275;
+
+    public static void main(String[] args) {
+        PApplet.runSketch(new String[] { "City Theme" }, new GambarPemdas());
+    }
+
+    @Override
+    public void settings() {
+        size(1920, 1080); // resolusi layar full screen
+        smooth();
+    }
+
+    @Override
+    public void setup() {
+
+        cars = new Car[5]; // array 10 mobil utk diacak
+
+        // memunculkan setiap mobil dalam array
+        for (int i = 0; i < cars.length; i++) {
+            float startX = random(width); // posisi awal X mobil secara acak
+            float startY = random(height / 2, height); // posisi awal Y mobil secara acak di jalan (bawah layar)
+            float speed = 300; // kecepatan mobil secara acak
+
+            cars[i] = new Car(startX, startY, speed);
+        }
+    }
+
+    @Override
+    public void draw() {
+        background(150); // Background warna abu-abu untuk kota
+        // biar kalo digeser-geser gambarnya tidak hilang
+        drawCityscape();
+        delay(76);
+    }
+
+    // fungsi pemandangan kota
+
+    void drawCityscape() {
+        drawSky();
+        drawSun();
+
+        drawBuildings();
+        drawSign();
+        drawWall();
+        drawRoad();
+        drawCars();
+    }
+
+    // Fungsi gambar langit
+    void drawSky() {
+        if (xs < 300) {
+            background(12, 48, 166);
+        } else if (xs < 850) {
+            background(9, 163, 235);
+        } else if (xs <= 1200) {
+            background(16, 192, 232);
+        } else {
+            background(245, 89, 5);
+        }
+        //fill(0, 191, 255); // warna biru langit
+        //noStroke();
+        //rect(0, 0, width, height / 2); // langit di atas aspal
+    }
+
+    // fungsi gambar matahari
+    void drawSun() {
+
+        if (xs < 300) {
+            fill(255, 210, 8);
+            ellipse(xs += 25, ys -= 10, 75, 75);
+        }
+        else if (xs < 650) {
+            fill(255, 210, 8);
+            ellipse(xs += 25, ys -= 5, 75, 75);
+        } else if (xs < 850) {
+            fill(255, 255, 0);
+            ellipse(xs += 25, ys, 75, 75);
+        } else if (xs <= 1200) {
+            fill(255, 255, 0);
+            ellipse(xs += 25, ys += 5, 75, 75);
+        } else {
+            fill(245, 33, 5);
+            ellipse(xs += 25, ys += 10, 75, 75);
+        }
+        if (xs >= 1450) {
+            xs = -120;
+            ys = 275;
+
+        }
+        //ellipse(sunX, height / 14, 80, 80); // ukuran matahari
+        //sunX += sunSpeed;
+
+        // looping matahari
+        //if (sunX > width + 50) {
+            //sunX = -50;
+       // }
+
+    }
+
+
+    // fungsi untuk gambar gedung
+    void drawBuilding(float x, float baseHeight, float buildingWidth, float buildingHeight) {
+        rectMode(CORNER); // Set mode to CORNER for drawing buildings
+        rect(x, baseHeight - buildingHeight, buildingWidth, buildingHeight); // gambar gedung
+    }
+
+    // fungsi gambar gedung-gedung kota
+    void drawBuildings() {
+        fill(110, 126, 128); // warna gedung depan
+        noStroke(); // Gambar gedung-gedung secara statis dengan tinggi yang bervariasi
+        drawBuilding(0, height / 2, 60, 320);
+        drawBuilding(100, height / 2, 60, 305);
+        drawBuilding(210, height / 2, 60, 280);
+        drawBuilding(280, height / 2, 55, 400);
+        drawBuilding(355, height / 2, 85, 380);
+        drawBuilding(490, height / 2, 60, 395);
+        drawBuilding(565, height / 2, 50, 320);
+        drawBuilding(625, height / 2, 72, 345);
+        drawBuilding(750, height / 2, 80, 365);
+        fill(151, 182, 184); // tengah
+        noStroke();
+        drawBuilding(20, height / 2, 80, 290);
+        drawBuilding(300, height / 2, 72, 290);
+        drawBuilding(510, height / 2, 60, 280);
+        drawBuilding(580, height / 2, 80, 220);
+        drawBuilding(635, height / 2, 50, 300);
+        drawBuilding(790, height / 2, 70, 290);
+        fill(163, 214, 217); // tengah
+        noStroke();
+        drawBuilding(0, height / 2, 70, 220);
+        drawBuilding(80, height / 2, 50, 200);
+        drawBuilding(250, height / 2, 65, 250);
+        drawBuilding(330, height / 2, 78, 330);
+        drawBuilding(500, height / 2, 50, 220);
+        drawBuilding(590, height / 2, 70, 270);
+        drawBuilding(780, height / 2, 65, 265);
+    }
+
+    void drawSign() {
+        noStroke();
+        fill(245, 252, 247);
+        rect(895, 205, 640, 210, 10);
+        fill(0, 128, 10);
+        rect(900, 210, 630, 200, 10);
+        fill(245, 252, 247);
+        rect(950, 410, 12, 130, 2);
+        rect(1480, 410, 12, 130, 2);
+        //tulisan
+        rect(920, 220, 60, 5, 2);
+        rect(975, 220, 5, 100, 2);
+        rect(1000, 220, 5, 135, 2);
+        rect(1000, 220, 55, 5, 2);
+        rect(1000, 280, 55, 5, 2);
+        rect(1053, 220, 5, 135, 2);
+        rect(1080, 220, 5, 135, 2);
+        rect(1150, 220, 55, 5, 2);
+        rect(1150, 280, 55, 5, 2);
+        rect(1150, 220, 5, 135, 2);
+        rect(1200, 220, 5, 135, 2);
+        rect(1220, 220, 5, 135, 2);
+        rect(1330, 220, 5, 135, 2);
+        rect(1300, 220, 65, 5, 2);
+        rect(1380, 220, 55, 5, 2);
+        rect(1380, 280, 55, 5, 2);
+        rect(1380, 220, 5, 135, 2);
+        rect(1430, 220, 5, 135, 2);
+        rect(1460, 280, 55, 5, 2);
+        rect(1350, 365, 3, 30, 2);
+        rect(1365, 365, 3, 30, 2);
+        rect(1385, 365, 3, 30, 2);
+        rect(1415, 365, 3, 30, 2);
+        rect(1441, 365, 3, 30, 2);
+
+        stroke(245, 252, 247); strokeWeight(5);
+        line(1082, 280, 1130, 220);
+        line(1082, 280, 1130, 352);
+        line(1225, 280, 1280, 352);
+        line(1480, 240, 1514, 280);
+        line(1514, 280, 1480, 320);
+        strokeWeight(3);
+        line(1386, 380, 1405, 366);
+        line(1386, 380, 1405, 393);
+        line(1416, 365, 1430, 393);
+        line(1430, 393, 1441, 365);
+        noFill(); stroke(245, 252, 247); strokeWeight(5);
+        curve(1000, 0,  976, 320, 920, 320, 1000, 100);
+        noFill(); stroke(245, 252, 247); strokeWeight(5);
+        curve(800, 300,  1225, 222,1225 , 280, 800, 200);
+    }
+
+    void drawWall() {
+        fill(143, 143, 130);
+        stroke(54, 54, 49); strokeWeight(1);
+        rect(0, (height / 2) - 70, 1920, 100);
+        line(20, (height/2) - 70, 20, height/2);
+        line(200, (height/2) - 70, 200, height/2);
+        line(400, (height/2) - 70, 400, height/2);
+        line(620, (height/2) - 70, 620, height/2);
+        line(850, (height/2) - 70, 850, height/2);
+        line(1020, (height/2) - 70, 1020, height/2);
+        line(1220, (height/2) - 70, 1220, height/2);
+        line(1410, (height/2) - 70, 1410, height/2);
+        line(1610, (height/2) - 70, 1610, height/2);
+    }
+
+    void drawRoad() {
+        fill(70); // Warna aspal
+        noStroke();
+        rect(0, height / 2, width, height / 2); // lebar jalan
+
+        fill(255, 255, 250); noStroke();
+        rect(20, (height/2) + 50, 400, 10);
+        rect(0, (height/2) + 200, 400, 10);
+        rect(590, (height/2) + 50, 400, 10);
+        rect(540, (height/2) + 200, 440, 10);
+        rect(1320, (height/2) + 50, 400, 10);
+        rect(1300, (height/2) + 200, 440, 10);
+    }
+
+    // fungsi untuk gambar mobil
+    void drawCars() {
+        fill(153, 34, 44); // warna mobil
+        // gambar mobil
+        float carWidth = 100;
+        float carHeight = 100;
+        float carY = height * 5 / 6 - carHeight; // posisi mobil
+
+        // Menggambar mobil utama yang bergerak
+        rect(carX, carY, carWidth, carHeight);
+
+        // Menggambar mobil-mobil lain yang bergerak
+        for (int i = 0; i < cars.length; i++) {
+            cars[i].update();
+            cars[i].display();
+        }
+    }
+
+    // Kelas mobil
+    class Car {
+        float x, y, speed;
+
+        Car(float x, float y, float speed) {
+            this.x = x;
+            this.y = y;
+            this.speed = speed;
+        }
+
+        void update() {
+            x += speed;
+            if (x > width) {
+                x = -50;
+            }
+        }
+
+        void display() {
+            noStroke();
+            fill(255, 0, 0);
+            rect(x, y - 20, 400, 100);
+            fill(255, 255, 255);
+            rect(x + 20, y - 80, 300, 100);
+            fill(105, 42, 3);
+            rect(x, y, 20, 100);
+            fill(0);
+            rect(x + 200,y - 80, 5, 100);
+            ellipse(x + 100, y + 95, 110, 110);
+            ellipse(x + 325, y + 95, 110, 110);
+        }
+    }
+}
